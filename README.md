@@ -29,7 +29,6 @@ java.lang.UnsupportedOperationException: Runtime singleton's cannot be construct
 This is the context of the failing code:
 
 ```
-     */
     public <T> DynamoDBService<T> findOrCreate(Class<T> type) {
         Optional<DynamoDBService> existingService = context.findBean(DynamoDBService.class, Qualifiers.byTypeArguments(type));
 
