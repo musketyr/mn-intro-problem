@@ -20,7 +20,8 @@ class MnIntroProblemFunctionSpec extends Specification {
     IDynamoDBMapper mapper = DynamoDB.createMapper(dru)
 
     void setup() {
-        dru.add(new IntroProblemEntity(hashKey: 'hash'))
+        dru.add(new IntroProblemEntity(hashKey: 'hash1'))
+        dru.add(new IntroProblemEntity2(hashKey: 'hash2'))
 
         MicronautHandler.reset()
         MicronautHandler.applicationContext.with { ApplicationContext context ->
@@ -33,7 +34,7 @@ class MnIntroProblemFunctionSpec extends Specification {
             gru.test {
                 get '/test/hash'
                 expect {
-                    json hashKey: 'hash'
+                    json entities: [[hashKey: 'hash1'], [hashKey: 'hash2']]
                 }
             }
     }

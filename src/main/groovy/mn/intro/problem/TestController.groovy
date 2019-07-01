@@ -6,15 +6,17 @@ import io.micronaut.http.annotation.Get
 @Controller('/test')
 class TestController {
 
-    private final IntroProblemEntityDBService dbService
+    private final IntroProblemEntityDBService firstService
+    private final IntroProblemEntity2DBService secondService
 
-    TestController(IntroProblemEntityDBService dbService) {
-        this.dbService = dbService
+    TestController(IntroProblemEntityDBService firstService, IntroProblemEntity2DBService secondService) {
+        this.firstService = firstService
+        this.secondService = secondService
     }
 
     @Get('/{hash}')
-    IntroProblemEntity show(String hash) {
-        return dbService.load(hash)
+    List show(String hash) {
+        return [firstService.load(hash), secondService.load(hash)]
     }
 
 }
