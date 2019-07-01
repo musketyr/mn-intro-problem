@@ -1,0 +1,5 @@
+profile: function-aws
+defaultPackage: mn.intro.problem
+---
+testFramework: spock
+sourceLanguage: groovy

@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS MnIntroProblem API - mn.intro.problem::mn-intro-problem
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+Resources:
+  MnIntroProblemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: mn.intro.problem.StreamLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: build/distributions/mn-intro-problem-0.1.zip
+      MemorySize: 512
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 15
+      Events:
+        GetResource:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: any
+
+Outputs:
+  MnIntroProblemApi:
+    Description: URL for application
+    Value: !Sub 'https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/ping'
+    Export:
+      Name: MnIntroProblemApi
