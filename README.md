@@ -24,3 +24,23 @@ java.lang.UnsupportedOperationException: Runtime singleton's cannot be construct
 	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:127) ~[groovy-2.5.6.jar:2.5.6]
 	at mn.intro.problem.TestController.show(TestController.groovy:19) ~[classes/:?]
 ```
+
+
+This is the context of the failing code:
+
+```
+     */
+    public <T> DynamoDBService<T> findOrCreate(Class<T> type) {
+        Optional<DynamoDBService> existingService = context.findBean(DynamoDBService.class, Qualifiers.byTypeArguments(type));
+
+        if (existingService.isPresent()) {
+            return (DynamoDBService<T>) existingService.get();
+        }
+
+        DynamoDBService<T> service = new DefaultDynamoDBService<>(client, mapper, type);
+
+        context.registerSingleton(DynamoDBService.class, service, Qualifiers.byTypeArguments(type));
+
+        return service;
+    }
+```
